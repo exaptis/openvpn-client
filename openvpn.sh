@@ -157,6 +157,9 @@ usage() { local RC=${1:-0}
     echo "Usage: ${0##*/} [-opt] [command]
 Options (fields in '[]' are optional, '<>' are required):
     -h          This help
+    -o '<config>' Run with a pre-defined configuration file
+                required arg: \"<config>\"
+                <config> a configuration at a path the container can access
     -c '<passwd>' Configure an authentication password to open the cert
                 required arg: \"<passwd>\"
                 <passwd> password to access the certificate file
