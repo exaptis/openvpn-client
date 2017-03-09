@@ -140,6 +140,14 @@ vpnportforward() {
     echo "Setup forwarded port: $port"
 }
 
+### run_with_config: run with a pre-canned configuration file
+# Arguments:
+#   conf) pre-canned configuration file
+# Return: nothing, it execs the openvpn process
+run_with_config() { conf="$1"
+    exec sg vpn -c "openvpn --config $conf"
+}
+
 ### usage: Help
 # Arguments:
 #   none)
@@ -177,6 +185,7 @@ The 'command' (if provided and valid) will be run instead of openvpn
 while getopts ":hc:dfp:r:t:v:" opt; do
     case "$opt" in
         h) usage ;;
+        o) run_with_config "$OPTARG" ;;
         c) cert_auth "$OPTARG" ;;
         d) DNS=true ;;
         f) firewall; touch /vpn/.firewall ;;
