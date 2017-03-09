@@ -97,6 +97,9 @@ make sure that `redirect-gateway def1` is set, otherwise routing may not work.
     Usage: openvpn.sh [-opt] [command]
     Options (fields in '[]' are optional, '<>' are required):
         -h          This help
+        -o '<config>' Run from a pre-defined configuration file
+                    required arg: "<config>"
+                    <config> the configuration file to load
         -c '<passwd>' Configure an authentication password to open the cert
                     required arg: "<passwd>"
                     <passwd> password to access the certificate file
