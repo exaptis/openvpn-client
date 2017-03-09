@@ -158,9 +158,6 @@ usage() { local RC=${1:-0}
     echo "Usage: ${0##*/} [-opt] [command]
 Options (fields in '[]' are optional, '<>' are required):
     -h          This help
-    -o '<config>' Run with a pre-defined configuration file
-                required arg: \"<config>\"
-                <config> a configuration at a path the container can access
     -c '<passwd>' Configure an authentication password to open the cert
                 required arg: \"<passwd>\"
                 <passwd> password to access the certificate file
@@ -174,6 +171,9 @@ Options (fields in '[]' are optional, '<>' are required):
                 <network> add a route to (allows replies once the VPN is up)
     -t \"\"       Configure timezone
                 possible arg: \"[timezone]\" - zoneinfo timezone for container
+    -o '<config>' Run with a pre-defined configuration file
+                required arg: \"<config>\"
+                <config> a configuration at a path the container can access
     -v '<server;user;password[;port]>' Configure OpenVPN
                 required arg: \"<server>;<user>;<password>\"
                 <server> to connect to (multiple servers can be separated by :)
@@ -186,16 +186,16 @@ The 'command' (if provided and valid) will be run instead of openvpn
     exit $RC
 }
 
-while getopts ":ho:c:dfp:r:t:v:" opt; do
+while getopts ":hc:dfp:r:t:o:v:" opt; do
     case "$opt" in
         h) usage ;;
-        o) run_with_config "$OPTARG" ;;
         c) cert_auth "$OPTARG" ;;
         d) DNS=true ;;
         f) firewall; touch /vpn/.firewall ;;
         p) vpnportforward "$OPTARG" ;;
         r) return_route "$OPTARG" ;;
         t) timezone "$OPTARG" ;;
+        o) run_with_config "$OPTARG" ;;
         v) eval vpn $(sed 's/^\|$/"/g; s/;/" "/g' <<< $OPTARG) ;;
         "?") echo "Unknown option: -$OPTARG"; usage 1 ;;
         ":") echo "No argument value for option: -$OPTARG"; usage 2 ;;
