@@ -11,10 +11,11 @@
 #          BUGS: ---
 #         NOTES: ---
 #        AUTHOR: David Personette (dperson@gmail.com),
-#      MODIFIED: Ben Lyall (ben@lyall.me)
+#      MODIFIED: Ben Lyall (ben@lyall.me),
+#                David Loidolt (david.loidolt@gmail.com),
 #  ORGANIZATION:
 #       CREATED: 09/28/2014 12:11
-#      REVISION: 1.0
+#      REVISION: 1.1
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
@@ -62,6 +63,7 @@ firewall() {
     iptables -A OUTPUT -o tun0 -j ACCEPT
     iptables -A OUTPUT -d ${docker_network} -j ACCEPT
     iptables -A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
+    iptables -A OUTPUT -p udp -m udp --dport 443 -j ACCEPT
     iptables -A OUTPUT -p tcp -m owner --gid-owner vpn -j ACCEPT 2>/dev/null &&
     iptables -A OUTPUT -p udp -m owner --gid-owner vpn -j ACCEPT || {
         iptables -A OUTPUT -p tcp -m tcp --dport 1194 -j ACCEPT
